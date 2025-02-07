@@ -1,6 +1,6 @@
 <h1 class="text-center">Liste des produits</h1>
 
-<p-button label="Créer produit" (onClick)="onCreate()" class="block text-center"/>
+@if (isAdmin){<p-button label="Créer produit" (onClick)="onCreate()" class="block text-center"/>}
 
 <p-dataView #dv [value]="products()">
     <ng-template pTemplate="list" let-products>
@@ -11,10 +11,14 @@
 
                 <ng-template pTemplate="footer">
                     <div class="flex gap-3 mt-1">
-                        <p-button *ngIf="isAdmin" label="Modifier" severity="secondary" (onClick)="onUpdate(product)"/>
-                        <p-button *ngIf="isAdmin" label="Supprimer" severity="danger" (onClick)="onDelete(product)" />
-                        <p-button label="Ajouter au panier" (click)="addToCart(product)"/>
+                        @if (isAdmin) {
+                            <p-button label="Modifier" severity="secondary" (onClick)="onUpdate(product)"/>
+                            <p-button label="Supprimer" severity="danger" (onClick)="onDelete(product)" />
+                        }
+                        <p-button label="Voir les détails" severity="info" (click)="openProductModal(product)"/>
+                        <p-button label="Ajouter au panier" severity="help" (click)="addToCart(product)"/>
                     </div>
+                    @if (showNotificationForProductId === product.id) { <div class="notification"> Article ajouté au panier ! </div> }
                 </ng-template>
             </p-card>
         }
@@ -29,4 +33,24 @@
         (save)="onSave($event)"
         (cancel)="onCancel()"
     />
+</p-dialog>
+
+<p-dialog [(visible)]="isDialogInfoVisible"
+    [style]="{ width: '50vw' }"
+    header="Détails du produit"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false">
+    @if (selectedProduct) {
+        <div>
+            <p><strong>Nom :</strong> {{ selectedProduct.name }}</p>
+            <p><strong>Prix :</strong> {{ selectedProduct.price }} €</p>
+            <p><strong>Description :</strong> {{ selectedProduct.description }}</p>
+            <p><strong>Stock :</strong> {{ selectedProduct.quantity }}</p>
+        </div>
+    }
+    
+    <ng-template pTemplate="footer">
+        <p-button type="button" label="Fermer" (click)="isDialogInfoVisible = false"/>
+    </ng-template>
 </p-dialog>

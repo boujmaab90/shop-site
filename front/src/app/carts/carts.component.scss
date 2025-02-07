@@ -1,5 +1,89 @@
+/* Afficher la barre gauche pour scroller */
 :host {
     display: block;
     height: 100%;
     overflow: auto;
 }
+
+/* Style global pour le conteneur */
+.cart-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style pour le titre */
+  .text-center {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Style pour chaque élément du panier */
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .cart-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Style pour les informations de l'article */
+  .item-info {
+    flex: 1;
+  }
+  
+  .item-info h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
+  }
+  
+  .item-info p {
+    margin: 5px 0 0;
+    font-size: 1em;
+    color: #666;
+  }
+  
+  /* Style pour le bouton de suppression */
+  .remove-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease;
+  }
+  
+  .remove-button:hover {
+    background-color: #ff1a1a;
+  }
+  
+  /* Style pour le badge du nombre d'articles */
+  .cart-summary {
+    text-align: right;
+    margin-top: 20px;
+  }
+  
+  .badge {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9em;
+  }

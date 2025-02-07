@@ -19,7 +19,7 @@ public class CartService {
 	@Autowired
 	private CartRepository cartRepository;
 
-	public Cart getUsersCart(String email) {
+	public Cart getCartByUser(String email) {
 		
 		User user = userRepository.findByEmail(email).orElseThrow();
 		return cartRepository.findByUser(user).orElseGet(null);

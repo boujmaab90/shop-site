@@ -22,9 +22,9 @@ public class CartController {
     private CartService cartService;
 
     @GetMapping()
-    public ResponseEntity<Cart> getUsersCart(Principal principal) {
+    public ResponseEntity<Cart> getCartByUser(Principal principal) {
         String email = principal.getName();
-        return ResponseEntity.ok(cartService.getUsersCart(email));
+        return ResponseEntity.ok(cartService.getCartByUser(email));
     }
     @PostMapping("/add")
     public ResponseEntity<Cart> addToCart(@RequestBody Product product, Principal principal) {

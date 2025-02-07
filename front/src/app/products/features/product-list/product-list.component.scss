@@ -1,5 +1,90 @@
+/* Afficher la barre gauche pour scroller */
 :host {
     display: block;
     height: 100%;
     overflow: auto;
+}
+
+/* Style global pour le conteneur */
+p-dataView {
+    display: block;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Style pour chaque carte de produit */
+p-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 20px;
+}
+  
+p-card:hover {
+transform: translateY(-2px);
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Style pour la catégorie du produit */
+.font-medium.text-secondary.text-sm {
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Style pour le nom du produit */
+.text-lg.font-medium.text-900.mt-2 {
+    font-size: 1.2em;
+    color: #333;
+    margin-top: 10px;
+}
+
+/* Style pour les boutons */
+.flex.gap-3.mt-1 {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Style pour la notification */
+.notification {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 0.9em;
+    animation: fadeOut 2s forwards;
+  }
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      display: none;
+    }
+  }
+  /* Styles pour la liste des produits */
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+.product {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 5px;
+  width: 200px;
+  text-align: center;
+}
+
+/* Styles pour les boutons PrimeNG */
+p-button {
+  margin: 5px;
+  flex: 1;
 }

@@ -4,6 +4,7 @@ import { LoginComponent } from "./authentification/login.component";
 import { NgModule } from "@angular/core";
 import { AuthGuard } from "./authentification/auth.guard";
 import { CartsComponent } from "./carts/carts.component";
+import { ContactComponent } from "./contact/contact.component";
 
 export const APP_ROUTES: Routes = [
   { path: "login", component: LoginComponent },
@@ -13,8 +14,8 @@ export const APP_ROUTES: Routes = [
     loadChildren: () =>
       import("./products/products.routes").then((m) => m.PRODUCTS_ROUTES)
   },
-  {
-    path: "carts", component: CartsComponent, canActivate: [AuthGuard] },
+  { path: "carts", component: CartsComponent, canActivate: [AuthGuard] },
+  { path: "contact", component: ContactComponent, canActivate: [AuthGuard] },
   { path: "", redirectTo: "/login", pathMatch: "full" }
 ];
 

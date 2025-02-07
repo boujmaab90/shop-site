@@ -1,0 +1,30 @@
+<div class="contact-form">
+  <h2>Besoin de nous contacter ?</h2>
+  <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" ngModel required email #email="ngModel">
+      @if (email.invalid && (email.dirty || email.touched)) {
+      <div class="error-message">
+        @if (email.errors?.['required']) {<div>L'email est obligatoire.</div>}
+        @if (email.errors?.['email']) {<div>L'email doit être valide.</div>}
+      </div>
+    }
+    </div>
+
+    <div class="form-group">
+      <label for="message">Message</label>
+      <textarea id="message" name="message" ngModel required maxlength="300" #message="ngModel"></textarea>
+      @if (message.invalid && (message.dirty || message.touched)) {
+      <div class="error-message">
+        @if (message.errors?.['required']) {<div>Le message est obligatoire.</div>}
+        @if (message.errors?.['maxlength']) {<div>Le message ne doit pas dépasser 300 caractères.</div>}
+      </div>
+    }
+    </div>
+
+    <button type="submit" [disabled]="contactForm.invalid">Envoyer</button>
+  </form>
+
+  @if (submitted) {<div class="success-message"> Demande de contact envoyée avec succès. </div>}
+</div>

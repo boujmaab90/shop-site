@@ -10,7 +10,7 @@ import { CardModule } from "primeng/card";
 import { DataViewModule } from 'primeng/dataview';
 import { DialogModule } from 'primeng/dialog';
 import * as uuid from "uuid";
-
+import { ProductModalComponent } from "../product-modal/product-modal.component";
 
 const emptyProduct: Product = {
   id: 0,
@@ -34,7 +34,7 @@ const emptyProduct: Product = {
   templateUrl: "./product-list.component.html",
   styleUrls: ["./product-list.component.scss"],
   standalone: true,
-  imports: [NgIf, DataViewModule, CardModule, ButtonModule, DialogModule, ProductFormComponent],
+  imports: [ DataViewModule, CardModule, ButtonModule, DialogModule, ProductFormComponent, ProductModalComponent],
 })
 export class ProductListComponent implements OnInit {
   private readonly productsService = inject(ProductsService);
@@ -46,6 +46,10 @@ export class ProductListComponent implements OnInit {
   public isCreation = false;
   public isAdmin = false;
   public readonly editedProduct = signal<Product>(emptyProduct);
+  public showNotification: boolean = false;
+  showNotificationForProductId : number | null = null;
+  selectedProduct: any = null; // Produit sélectionné pour la modal
+  isDialogInfoVisible: boolean = false; // Contrôle l'affichage de la modal
 
   constructor(
     private productService: ProductsService,
@@ -89,9 +93,20 @@ export class ProductListComponent implements OnInit {
     }
     this.closeDialog();
   }
+  
+  // Ouvrir la modal avec les informations du produit
+  openProductModal(product: any) {
+    this.selectedProduct = product;
+    this.isDialogInfoVisible = true;
+  }
   public addToCart(product: Product) {
-    console.log("ajouter au panier")
     this.cartService.addToCart(product);
+    // Activer la notification pour ce produit
+    this.showNotificationForProductId = product.id;
+    // Masquer la notification après 2 secondes
+    setTimeout(() => {
+      this.showNotification = false;
+    }, 2000);
   }
 
   public onCancel() {

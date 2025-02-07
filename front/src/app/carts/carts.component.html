@@ -1,7 +1,15 @@
 <h1 class="text-center">Liste des produits dans le panier</h1>
-<!-- cart.component.html -->
-<div *ngFor="let item of cartItems" class="cart-item">
-    <h3>{{ item.name }}</h3>
-    <p>{{ item.price }}</p>
-    <button (click)="removeFromCart(item)">Supprimer</button>
+<div class="cart-container">
+  @for (item of cartItems; track item) {
+    <div class="cart-item">
+      <div class="item-info">
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.price }}€</p>
+      </div>
+      <button class="remove-button" (click)="removeFromCart(item)">Supprimer</button>
+    </div>
+  }
+  <div class="cart-summary">
+    <span class="badge">{{ cartItems.length }} article(s)</span>
   </div>
+</div>

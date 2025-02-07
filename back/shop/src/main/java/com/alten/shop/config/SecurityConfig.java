@@ -33,10 +33,13 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
 		http.userDetailsService(userDetailsService) // Injection du bean userDetail
-			.cors(Customizer.withDefaults()) // sactive CROS
+			.cors(Customizer.withDefaults()) // active CROS
 			.csrf(csrf -> csrf.disable()) // Désactive CSRF
-			.authorizeHttpRequests(auth -> auth.requestMatchers(mvc.pattern("/account")).permitAll() // Route publique
-												.requestMatchers(mvc.pattern("/token")).permitAll() // Route publique
+			.authorizeHttpRequests(auth -> auth.requestMatchers(mvc.pattern("/account")).permitAll() // Route publique technique
+												.requestMatchers(mvc.pattern("/token")).permitAll()
+												 // Routes publiques pour sawgger
+												.requestMatchers(mvc.pattern("/swagger-ui/**")).permitAll()
+												.requestMatchers(mvc.pattern("/v3/api-docs*/**")).permitAll()
 				.requestMatchers(mvc.pattern("/products/**")).hasAuthority("admin@admin.com") // Vérification admin
 				.anyRequest().authenticated()) // Toutes les autres routes nécessitent une authentification
 			.addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class); // Ajoute le filtre JWT

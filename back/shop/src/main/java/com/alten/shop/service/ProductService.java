@@ -17,6 +17,19 @@ public class ProductService {
 	public Product save(Product product) {
 		return productRepository.save(product);
 	}
+	
+	public Product updateProduct(Product product) {
+		
+		Product newProduct = findById(product.getId()).get();
+    	
+		newProduct.setName( product.getName() );
+    	newProduct.setPrice( product.getPrice() );
+    	newProduct.setDescription( product.getDescription() );
+    	newProduct.setCategory( product.getCategory() );
+    	newProduct.setUpdatedAt( product.getUpdatedAt() );
+    	
+		return productRepository.save(newProduct);
+	}
 
 	public List<Product> findAll() {
 		return productRepository.findAll();

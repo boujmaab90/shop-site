@@ -9,7 +9,7 @@ import { NgIf } from "@angular/common";
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css'],
     standalone: true,
-    imports: [ NgIf, ReactiveFormsModule],
+    imports: [ ReactiveFormsModule],
   })
   export class LoginComponent {
     loginForm: FormGroup;

@@ -5,9 +5,7 @@
     <div class="p-toolbar-group-center">
         {{ title }}
     </div>
-    <div class="p-toolbar-group-end">
-        <i class="pi pi-shopping-cart" style="font-size: 2rem" [routerLink]="['/carts']"></i>
-    </div>
+    <app-cart-icon></app-cart-icon>
 </p-toolbar>
 <p-splitter 
     [panelSizes]="[20, 80]" 

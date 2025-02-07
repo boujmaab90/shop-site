@@ -2,7 +2,6 @@ package com.alten.shop.controller;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,37 +36,41 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable Long id) {
     	if (productService.findById(id).isPresent()) { return ResponseEntity.ok(productService.findById(id).get());}
-    	else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    	else {
+    		//throw new NoSuchElementException("Le produit avec id "+id+" n'existe pas");
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    	}
     }
 
     // Mise à jour partielle (PATCH)
     @PatchMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product, Principal principal) {
-        if (!"admin@admin.com".equals(principal.getName())) { return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); }
-        else if (productService.findById(id).isPresent()){
-        	Product newProduct = productService.findById(id).get();
-
-        	newProduct.setName( product.getName() );
-        	newProduct.setPrice( product.getPrice() );
-        	newProduct.setDescription( product.getDescription() );
-        	newProduct.setCategory( product.getCategory() );
-        	newProduct.setUpdatedAt( product.getUpdatedAt() );
-        	
-        	return ResponseEntity.ok(productService.save(newProduct));
+        
+    	if (!"admin@admin.com".equals(principal.getName())) { return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); }
+        
+    	else if (productService.findById(id).isPresent()){
+        	return ResponseEntity.ok(productService.updateProduct(product));
         }
-        else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        else {
+    		//throw new NoSuchElementException("Le produit avec id "+id+" n'existe pas");
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    	}
     }
     
     // Suppression d'un produit
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatusCode> deleteProduct(@PathVariable Long id, Principal principal) {
-        if (!"admin@admin.com".equals(principal.getName())) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        
+    	if (!"admin@admin.com".equals(principal.getName())) { return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); }
         
         else if (productService.findById(id).isPresent()) {
         	productService.deleteById(id);
         	return ResponseEntity.ok(HttpStatus.NO_CONTENT);
         }
-        else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        else {
+    		//throw new NoSuchElementException("Le produit avec id "+id+" n'existe pas");
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    	}
     }
 
     @PostMapping
