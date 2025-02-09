@@ -7,6 +7,11 @@
     </div>
     <app-cart-icon></app-cart-icon>
 </p-toolbar>
+@if(displayLogout()) {
+    <i class="pi pi-sign-out" style="font-size: 2rem;font-size: 2rem;
+    position: absolute;
+    right: 10px;" (click)="logout()"></i>
+}
 <p-splitter 
     [panelSizes]="[20, 80]" 
     [style]="{ height: 'calc(100vh - 100px)' }">

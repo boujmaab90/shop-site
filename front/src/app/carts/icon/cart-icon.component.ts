@@ -25,7 +25,9 @@ export class CartIconComponent implements OnInit {
   ngOnInit(): void {
     // Surveiller les changements dans le panier
     this.cartService.cartItems$.subscribe((items) => {
-      this.itemCount = items.length;
+      this.itemCount = items.map(item => item.quantity).reduce((a, b) => a + b, 0)
     });
+    
+    //this.cartService.itemCount$.subscribe((itemCount) => this.itemCount = itemCount);
   }
 }

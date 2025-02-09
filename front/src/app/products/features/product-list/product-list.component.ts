@@ -10,7 +10,8 @@ import { CardModule } from "primeng/card";
 import { DataViewModule } from 'primeng/dataview';
 import { DialogModule } from 'primeng/dialog';
 import * as uuid from "uuid";
-import { ProductModalComponent } from "../product-modal/product-modal.component";
+import { PageableInfo } from "app/shared/model/pageable-info.model";
+import { NgxPaginationModule } from "ngx-pagination";
 
 const emptyProduct: Product = {
   id: 0,
@@ -34,7 +35,7 @@ const emptyProduct: Product = {
   templateUrl: "./product-list.component.html",
   styleUrls: ["./product-list.component.scss"],
   standalone: true,
-  imports: [ DataViewModule, CardModule, ButtonModule, DialogModule, ProductFormComponent, ProductModalComponent],
+  imports: [ DataViewModule, CardModule, ButtonModule, DialogModule, ProductFormComponent, NgxPaginationModule ],
 })
 export class ProductListComponent implements OnInit {
   private readonly productsService = inject(ProductsService);
@@ -50,6 +51,12 @@ export class ProductListComponent implements OnInit {
   showNotificationForProductId : number | null = null;
   selectedProduct: any = null; // Produit sélectionné pour la modal
   isDialogInfoVisible: boolean = false; // Contrôle l'affichage de la modal
+  defaultImage: string = "assets/images/default-image.png";
+  
+  totalProducts = 0;
+  pageNumber = 1;
+  pageSize = 2;
+  pageSizes = [2, 6, 10]
 
   constructor(
     private productService: ProductsService,
@@ -63,7 +70,14 @@ export class ProductListComponent implements OnInit {
   }
 
   public reload() {
-    this.productsService.get().subscribe(products => {this.productsList = products});
+    let param:any = {}
+    param['pageNumber'] = this.pageNumber-1;
+    param['pageSize'] = this.pageSize;
+    this.productsService.get(param).subscribe(pageableInfo => {
+          console.log(pageableInfo);
+          this.productsList = pageableInfo.content as Product[];
+          this.totalProducts = pageableInfo.totalElements;
+        });
   }
   public onCreate() {
     this.isCreation = true;
@@ -95,7 +109,7 @@ export class ProductListComponent implements OnInit {
   }
   
   // Ouvrir la modal avec les informations du produit
-  openProductModal(product: any) {
+  openProductModal(product: Product) {
     this.selectedProduct = product;
     this.isDialogInfoVisible = true;
   }
@@ -115,5 +129,16 @@ export class ProductListComponent implements OnInit {
 
   private closeDialog() {
     this.isDialogVisible = false;
+  }
+
+  handlePageChange(event: any): void {
+    this.pageNumber = event;
+    this.reload();
+  }
+
+  handlePageSizeChange(event: any): void {
+    this.pageSize = event.target.value;
+    this.pageNumber = 1;
+    this.reload();
   }
 }

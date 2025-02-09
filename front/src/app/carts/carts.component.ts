@@ -18,15 +18,34 @@ import { DialogModule } from 'primeng/dialog';
 })
 export class CartsComponent implements OnInit {
   cartItems: Product[] = [];
+  totalAmount: number = 0;
 
   constructor(private cartService: CartService) {}
 
   ngOnInit(): void {
-    this.cartItems = this.cartService.getCartItems();
+    //this.cartItems = this.cartService.getCartItems();
+    this.cartService.cartItems$.subscribe((products) => {
+      this.cartItems = products;
+      this.totalAmount = this.cartService.getTotalAmount();
+    });
   }
 
-  removeFromCart(product: Product): void {
-    this.cartService.removeFromCart(product);
-    this.cartItems = this.cartService.getCartItems();
+  // Augmenter la quantité d'un article
+  increaseQuantity(product: Product) {
+    this.cartService.updateQuantity(product.id, product.quantity + 1);
+  }
+
+  // Réduire la quantité d'un article
+  decreaseQuantity(product: Product) {
+    if (product.quantity > 1) {
+      this.cartService.updateQuantity(product.id, product.quantity - 1);
+    } else {
+      this.cartService.removeFromCart(product.id); // Supprimer l'article si la quantité est 1
+    }
+  }
+
+  // Supprimer un article du panier
+  removeFromCart(product: Product) {
+    this.cartService.removeFromCart(product.id);
   }
 }

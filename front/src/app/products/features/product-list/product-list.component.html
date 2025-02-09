@@ -4,10 +4,21 @@
 
 <p-dataView #dv [value]="products()">
     <ng-template pTemplate="list" let-products>
-        @for (product of products; track product) {
+        @for (product of products | paginate : {
+            itemsPerPage: pageSize,
+            currentPage: pageNumber,
+            totalItems: totalProducts
+        }; track product.id; let i = $index) {
             <p-card class="block mb-2">
                 <span class="font-medium text-secondary text-sm">{{ product.category }}</span>
+                <img
+                    [src]="product.image || defaultImage"
+                    alt="{{ product.name }}"
+                    class="product-image"
+                    onerror="this.src='assets/images/default-image.png'"
+                    />
                 <div class="text-lg font-medium text-900 mt-2">{{ product.name }}</div>
+                <div class="font-medium mt-2">{{ product.price }} €</div>
 
                 <ng-template pTemplate="footer">
                     <div class="flex gap-3 mt-1">
@@ -21,7 +32,24 @@
                     @if (showNotificationForProductId === product.id) { <div class="notification"> Article ajouté au panier ! </div> }
                 </ng-template>
             </p-card>
-        }
+        }    
+    <div class="text-center">
+        <div class="col-md-12">
+            <pagination-controls previousLabel="Prev" nextLabel="Next" [responsive]="true"
+                (pageChange)="handlePageChange($event)"></pagination-controls>
+        </div>
+    
+        <div class="mt-3">
+            Items per Page:
+            <select (change)="handlePageSizeChange($event)">
+                @for (size of pageSizes; track size) {
+                <option>
+                    {{ size }}
+                </option>
+                }
+            </select>
+        </div>
+    </div>
     </ng-template>
 </p-dataView>
 
@@ -34,7 +62,6 @@
         (cancel)="onCancel()"
     />
 </p-dialog>
-
 <p-dialog [(visible)]="isDialogInfoVisible"
     [style]="{ width: '50vw' }"
     header="Détails du produit"
@@ -43,6 +70,10 @@
     [resizable]="false">
     @if (selectedProduct) {
         <div>
+            <img [src]="selectedProduct.image || defaultImage"
+                 alt="{{ selectedProduct.name }}"
+                 class="product-image"
+                 onerror="this.src='assets/images/default-image.png'"/>
             <p><strong>Nom :</strong> {{ selectedProduct.name }}</p>
             <p><strong>Prix :</strong> {{ selectedProduct.price }} €</p>
             <p><strong>Description :</strong> {{ selectedProduct.description }}</p>

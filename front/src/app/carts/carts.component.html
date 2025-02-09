@@ -6,10 +6,16 @@
         <h3>{{ item.name }}</h3>
         <p>{{ item.price }}€</p>
       </div>
-      <button class="remove-button" (click)="removeFromCart(item)">Supprimer</button>
+      <div class="item-quantity">
+        <button (click)="decreaseQuantity(item)">-</button>
+        <span class="badge">{{ item.quantity }}</span>
+        <button (click)="increaseQuantity(item)">+</button>
+      </div>
+      <button class="remove-button" (click)="removeFromCart(item)">Supprimer du panier</button>
     </div>
   }
   <div class="cart-summary">
     <span class="badge">{{ cartItems.length }} article(s)</span>
+    <span>Total: {{ totalAmount }}€</span>
   </div>
 </div>

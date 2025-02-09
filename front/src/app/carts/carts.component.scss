@@ -33,7 +33,7 @@
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    //transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
   
   .cart-item:hover {
@@ -57,6 +57,25 @@
     font-size: 1em;
     color: #666;
   }
+
+  .item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .item-quantity button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .item-quantity button:hover {
+    background-color: #0056b3;
+  }
   
   /* Style pour le bouton de suppression */
   .remove-button {
@@ -67,7 +86,7 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.9em;
-    transition: background-color 0.2s ease;
+    //transition: background-color 0.2s ease;
   }
   
   .remove-button:hover {
@@ -78,6 +97,11 @@
   .cart-summary {
     text-align: right;
     margin-top: 20px;
+  }
+
+  .cart-summary h3 {
+    font-size: 1.5em;
+    color: #333;
   }
   
   .badge {

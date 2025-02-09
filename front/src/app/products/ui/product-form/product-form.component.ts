@@ -20,6 +20,12 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
   template: `
     <form #form="ngForm" (ngSubmit)="onSave()">
       <div class="form-field">
+        <label for="name">Image</label>
+        <img [src]="editedProduct().image || 'assets/images/default-image.png'"
+                 alt="{{ editedProduct().name }}"
+                 style="height: 200px;width: 400px;margin: auto;display: block;"/>
+      </div>
+      <div class="form-field">
         <label for="name">Nom</label>
         <input pInputText
           type="text"

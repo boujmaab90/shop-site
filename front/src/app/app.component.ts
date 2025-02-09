@@ -6,6 +6,8 @@ import { SplitterModule } from 'primeng/splitter';
 import { ToolbarModule } from 'primeng/toolbar';
 import { PanelMenuComponent } from "./shared/ui/panel-menu/panel-menu.component";
 import { CartIconComponent } from "./carts/icon/cart-icon.component";
+import { AuthGuard } from "./authentification/auth.guard";
+import { AuthService } from "./authentification/authentification.service";
 
 @Component({
   selector: "app-root",
@@ -16,4 +18,13 @@ import { CartIconComponent } from "./carts/icon/cart-icon.component";
 })
 export class AppComponent {
   title = "ALTEN SHOP";
+
+  constructor(private authService: AuthService) {}
+
+  displayLogout(): boolean {
+    return this.authService.isLoggedIn()
+  }
+  logout() {
+    this.authService.logout();
+  }
 }

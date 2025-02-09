@@ -3,6 +3,8 @@ import { Product } from "./product.model";
 import { HttpClient } from "@angular/common/http";
 import { catchError, Observable, of, tap } from "rxjs";
 import { environment } from "environments/environment";
+import { NgxPaginationModule, PaginatePipe } from 'ngx-pagination';
+import { PageableInfo } from "app/shared/model/pageable-info.model";
 
 @Injectable({
     providedIn: "root"
@@ -16,15 +18,18 @@ import { environment } from "environments/environment";
 
     public readonly products = this._products.asReadonly();
 
-    public get(): Observable<Product[]> {
-        return this.http.get<Product[]>(`${environment.apiUrl}/${this.path}`).pipe(
+    public get(paramsPage: any): Observable<any> {
+        return this.http.get<any>(`${environment.apiUrl}/${this.path}`, {params: paramsPage}).pipe(
             catchError((error) => {
                 // For tests only
                 //return this.http.get<Product[]>("assets/products.json");
                 console.error('Erreur API:', error);
                 return of([]); // Retourner rien par defaut
             }),
-            tap((products) => this._products.set(products)),
+            tap((response) => {
+              let products = response.content as Product[];
+              this._products.set(products)
+    }),
         );
     }
 
